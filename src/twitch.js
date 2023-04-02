@@ -1,6 +1,6 @@
 
 const clientId = process.env.TWITCH_CLIENT_ID;
-const authorizeUrl = 'https://sakuraboost3.sbtp.xyz/api/connect/twitch/callback'
+const authorizeUrl = 'https://sakuraboost3.sbtp.xyz/api/connect/twitch'
 const scopes = "user:read:email"
 
 
