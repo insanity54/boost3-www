@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <title>Sakura BOOST</title>
+<head>
+  <script type="module" src="./main.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> 
+  <style>
+    html, body {
+      margin: 0; height: 100%; overflow: hidden
+    }
+    .image-container {
+      max-width: 60vh
+    }
+  </style>
+</head>
+<body>
+<script>
+  window.SnipcartSettings = {
+    publicApiKey: "ZTJhM2I4OWMtMTY4OC00MThiLWFhMTAtY2FlOWYzNDlhNzRkNjM4MTU4NjU1NTUzOTQzMzI5",
+    loadStrategy: "on-user-interaction",
+  };
+  (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+</script>
+
+
+<div x-data="error">
+  <ul>
+  <template x-for="e in $store.error.errors">
+    <li x-text="e"></li>
+  </template>
+  </ul>
+</div>
+
+<div x-data="game">
+  <button class="button" x-on:click="startGame">Start</button>
+  <button class="button" x-on:click="stopGame">Stop</button>
+  <progress class="progress is-danger" x-bind:value="remainingTimeMs" x-bind:max="roundTimeMs"></progress>
+</div>
+
+<div x-data="$store.offer" x-show="$store.auth.isAuthenticated">
+  <!-- <button class="button" x-on:click="getUnclaimed" x-show="$store.auth.isAuthenticated">Get offer</button> -->
+
+  <div x-show="card" class="columns is-multiline is-mobile">
+      <div class="column is-one-third">
+        <h1 class="is-size-1"><span x-text="card.SKU"></span></h1>
+        <span class="is-size-5" x-text="formatMoney(priceCents)">
+        </span>
+      </div>
+
+      <div class="column is-two-thirds">
+        <div class="image-container">
+          <figure class="image is-2by3">
+            <img x-bind:src="card.image_front" />
+          </figure>
+        </div>
+
+        <button class="button" x-on:click="markAsUnwanted">Mark as unwanted</button>
+        <button class="button" x-on:click="markAsBought">Mark as bought</button>
+
+        <label for="owner">Owner ID</label>
+        <input id="owner" x-model="owner" type="number">
+      </div>
+  </div>
+</div>
+
+<div x-data="auth">
+  <p x-show="$store.auth.isAuthenticated">Logged in.</p>
+  <p x-show="!$store.auth.isAuthenticated">
+    Logged out.
+    <a href="https://boost3.sbtp.xyz/api/connect/twitch">Login with Twitch</a>
+  </p>
+</div>
+
+<!-- <footer class="footer">
+  <div class="content has-text-centered">
+    <button class="button">Start</button>
+    <button class="button">Stop</button>
+  </div>
+</footer> -->
+
+</body>
+</html>
+

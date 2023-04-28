@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html color-mode="user">
+  <title>Sakura BOOST</title>
+<head>
+  <script type="module" src="./main.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css"> 
+
+</head>
+<body>
+
+
+
+  <div x-data="error">
+    <ul>
+    <template x-for="e in $store.error.errors">
+      <li x-text="e"></li>
+    </template>
+    </ul>
+  </div>
+
+
+
+
+  <header
+    x-data="$store.offer"
+  >
+    
+
+      <h1 class="heading" x-text="title"></h1>
+      <p><i x-text="formatMoney(priceCents)"></i></p>
+      <figure>
+        <img x-bind:src="image" />
+      </figure>
+
+      <p>Won by <span x-text="winnerName"></span></p>
+      <!-- * [ ] Authenticated user who is not the winner sees no button -->
+
+      <!-- * [ ] Only the winner sees the buy button -->
+      <button x-on:click="$store.offer.buy" x-show="$store.auth.jwt!==''" class="button">Checkout</button>
+
+      <!-- * [x] Only unauthenticated user sees the log in button -->
+      <a
+        x-bind:href="`${Alpine.store('env').backend}/api/connect/twitch`" 
+        x-show="$store.auth.jwt===''" 
+        class="button"
+      >
+        Log In To Buy
+      </a>
+    </template>
+  </header>
+
+
+
+
+</body>
+</html>
+

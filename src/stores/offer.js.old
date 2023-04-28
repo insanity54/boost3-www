@@ -1,0 +1,140 @@
+import _ from 'lodash'
+
+
+
+export function registerOfferStore(alpine) {
+  alpine.store("offer", {
+    last: alpine.$persist(0),
+    priceCents: null,
+    id: '',
+    title: '',
+    image: '',
+    card: {
+      SKU: '',
+      image_front: '',
+    },
+    cursor: 0,
+    winnerId: '',
+    winnerColor: '',
+    winnerName: '',
+    formatMoney (priceInCents) {
+      if (!priceInCents) return null
+      const formattedPrice = (priceInCents / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+      return formattedPrice
+    },
+
+    async init () {
+
+      // const params = new Proxy(new URLSearchParams(window.location.search), {
+      //   get: (searchParams, prop) => searchParams.get(prop),
+      // });
+      // // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+      // let offer = params?.offer; // "some_value"
+      let offer = alpine.$router.offer.id
+
+
+      console.log(`offer:${offer}`)
+      if (_.isEmpty(offer)) return;
+
+      this.id = offer
+
+      console.log(`fetchy offer ${this.id} backend:${window.backend}`)
+      const res = await fetch(encodeURI(`${window.backend}/api/scoped-offer/${this.id}`), {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${alpine.store('auth').jwt}`
+        }
+      })
+
+      // console.log('fetch done')
+
+      // if (!res.ok) return;
+
+      const json = await res.json()
+      console.log('HERE IS THE OFFER STRAIGHT FROM THE HORSIE\'S MOUTH')
+      console.log(json)
+
+      this.title = _.get(json, 'title')
+      this.priceCents = _.get(json, 'priceCents')
+      this.image = _.get(json, 'image')
+      this.id = _.get(json, 'id')
+      this.winnerId = _.get(json, 'winnerId')
+      this.winnerColor = _.get(json, 'winnerColor')
+      this.winnerName = _.get(json, 'winnerName')
+
+      // this.last = this.id
+
+
+    },
+    async updateOffer (offer) {
+      // @todo POST the change to db
+    },
+    async getUnclaimed() {
+      try {
+        const offer = await Alpine.store("request")
+          .getClient()
+          .get(
+            encodeURI(`${backend}/api/offers?populate[0]=card&populate[1]=card.image_front&populate[2]=card.image_front.media&filters[status][$eq]=available&pagination[pageSize]=1&sort[0]=createdAt:asc`),
+            {
+              headers: {
+                'Authorization': `Bearer ${Alpine.store('auth').jwt}`
+              }
+            }
+          )
+          .json()
+
+          console.log(data[0])
+
+        this.card.SKU = _.get(offer, 'data[0].attributes.card.data.attributes.SKU')
+        this.id = _.get(offer, 'data[0].id')
+        this.title = _.get(offer, 'data[0].title')
+        this.card.image_front = _.get(offer, 'data[0].attributes.card.data.attributes.image_front.data.attributes.url')
+        this.priceCents = _.get(offer, 'data[0].attributes.priceCents')
+
+      } catch (e) {
+        Alpine.store("error").add(e)
+      }
+    },
+
+    async markAsBought() {
+      if (!this.id) {
+        Alpine.store('error').add(`cannot mark offer as bought because offer.id is falsy`)
+        return
+      }
+      if (!this.winnerId) {
+        Alpine.store('error').add(`cannot mark winner because winner is falsy`)
+        return
+      }
+      console.log(`marking offer ${this.id} as owned by ${this.winner} (${typeof this.winner})`)
+      try {
+        const response = await Alpine.store('request')
+          .getClient()
+          .put(
+            encodeURI(`${backend}/api/offers/${this.id}`),
+            {
+              headers: {
+                'Authorization': `Bearer ${Alpine.store('auth').jwt}`,
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({
+                "data": {
+                  // "status": "bought"
+                  "winner": { id: parseInt(this.winner)}
+                }
+              })
+            }
+          )
+
+      } catch (e) {
+        Alpine.store('error').add(e)
+      }
+    },
+    async getUnwantedOffer () {
+      // get the oldest createdAt offer with state: unwanted
+    }
+    
+  })
+}
