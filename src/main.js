@@ -14,6 +14,10 @@ import { auth } from "./components/auth.js";
 import { offer } from "./components/offer.js";
 import { game } from "./components/game.js";
 import { error } from "./components/error.js";
+import { settings } from "./components/settings.js";
+import { account } from './components/account.js';
+import { conditionGuide } from './components/condition-guide.js';
+import { setlist } from './components/setlist.js';
 
 window.router = router
 
@@ -26,7 +30,11 @@ registerOfferStore(Alpine);
 registerErrorStore(Alpine);
 registerEnvStore(Alpine);
 
+window.setlist = setlist;
+window.conditionGuide = conditionGuide;
+window.account = account;
 window.auth = auth;
+window.settings = settings;
 window.game = game;
 window.offer = offer;
 window.error = error;

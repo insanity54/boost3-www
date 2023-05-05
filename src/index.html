@@ -3,15 +3,9 @@
   <title>Sakura BOOST (test)</title>
   <head>
     <script type="module" src="./main.js"></script>
-    <script>
-      window.SnipcartSettings = {
-        publicApiKey: "ZTJhM2I4OWMtMTY4OC00MThiLWFhMTAtY2FlOWYzNDlhNzRkNjM4MTU4NjU1NTUzOTQzMzI5",
-        loadStrategy: "manual",
-        addProductBehavior: "none",
-      };
+    
 
-      (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
-    </script>
+
     <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css"> 
 
   </head>
@@ -25,7 +19,8 @@
         <li><a x-link href="/features">Features</a></li>
         <li><a x-link href="/pricing">Pricing</a></li>
         <li><a x-link href="/account">Account</a></li>
-        <li><a x-link href="/offer/3">Offer 3</a></li>
+        <li><a x-link href="/settings">Settings</a></li>
+        <li><a x-link href="/offer/122">Offer 122</a></li>
       </ul>
     </nav>
 
@@ -38,34 +33,164 @@
     <template x-route="/">
       <header>
       <h1>Sell your physical goods via livestream</h1>
-        
+      <img src="https://placehold.co/720x480?text=placeholder-for-video-of-chatbot">
+      <p><a x-bind:href="`${Alpine.store('env').backend}/api/connect/twitch`"><b>Get Started</b></a></p>
       </header>
     </template>
 
     <template x-route="/features">
       <div>
-        <h1>Features</h1>
-        <ul>
-          <li>Dutch Auctions in chat</li>
-        </ul>
+        <header><h1>Features</h1></header>
+        <section>
+          <div>
+            <ul>
+              <li>Dutch Auctions in chat</li>
+            </ul>
+          </div>
+        </section>
       </div>
     </template>
 
     <template x-route="/pricing">
-      <article>
-        <h2>Pricing</h2>
-        <p>$19.99 per month</p>
-      </article>
+      <div>
+        <header><h1>Pricing</h1></header>
+        <section>
+          <aside>
+            <h2>Test Drive</h2>
+            <p>$0.00 per month</p>
+            <p>Limited to 7 auctions per month</p>
+            <p>Basic support</p>
+          </aside>
+          <aside>
+            <h2>Pro</h2>
+            <p>$19.99 per month</p>
+            <p>✓ Unlimited auctions</p>
+            <p>✓ Priority support</p>
+          </aside>
+        </section>
+      </div>
     </template>
 
     <template x-route="/account">
       <div x-data="auth">
-        <h1>Account</h1>
-        <p x-text="username"></p>
-        <button x-show="isLoggedIn" x-on:click="logOut">logout</button>
+        <header>
+          <h1>Account</h1>
+          <div x-show="(Alpine.store('auth').jwt === '')">
+            <a
+              x-bind:href="`${window.backend}/api/connect/twitch`" 
+              class="button"
+            >
+              <b>Log In</b>
+            </a>
+          </div>
+        </header>
+        <div x-show="isLoggedIn">
+          <section>
+            <div>
+              <h2><span x-text="username"></span> <a  x-link href="#" x-on:click="logOut">logout</a></h2>
+            </div>
+          </section>
+          <hr>
+          <section>
+            <div x-data="account">
+              <h2>Offers Won</h2>
+              <template x-for="offer in offers">
+                <ul>
+                  <li>
+                    <a x-link x-bind:href="getOfferUrl(offer)"><span x-text="offer.attributes.title"></span></a>
+                  </li>
+                </ul>
+              </template>
+            </div>  
+          </section>
+          <hr>
+
       </div>
     </template>
 
+
+    <template x-route="/settings">
+      <div x-data="settings">
+        <header><h1>Settings</h1></header>
+        <section>
+          <div>
+            <h2>SakuraBot</h2>
+            <input id="optForBot" type="checkbox">
+            <label for="optForBot">Add SakuraAuction bot to my channel</label>
+          </div>
+        </section>
+        <hr>
+        <section>
+          <div>
+            <h2>Dutch Auction</h2>
+            <label for="duration">Duration</label>
+            <input x-model="auctionDuration" type="range" id="duration" name="duration" min="10" max="300" />
+            <span x-text="formatDuration(auctionDuration)"></span>
+          </div>
+        </section>
+        <hr>
+        <section>
+          <div>
+            <h2>Paypal Integration</h2>
+            <button x-on:click="connectPaypal">Connect to Paypal</button>
+          </div>
+        </section>
+      </div>
+    </template>
+
+    <template x-route="/card_condition_guide">
+      <div x-data="conditionGuide">
+        <main>
+          <section>
+            <template x-for="condition in conditions">
+              <aside>
+                <div>
+                  <img x-bind:src="condition.image" />
+                  <h3 x-text="condition.name"></h3>
+                  <p x-text="condition.description"></p>
+                </div>
+              </aside>
+            </template>
+          </section>
+        </main>
+      </div>
+    </template>
+
+
+    <template x-route="/setlist">
+      <main><h1>See <a x-link href="/pm/setlist">/pm/setlist</a></h1></main>
+    </template>
+
+    <template x-route="/pm/setlist">
+      <div x-data="setlist">
+        <section>
+          <header>
+            <h1>Precious Memories TCG Setlist</h1>
+            <p><i>Alphebetized by set abbreviation.</i></p>
+          </header>
+          <table>
+            <thead>
+              <tr>
+                <th>名前 (name)</th>
+                <th>Abbr</th>
+                <th>Name</th>
+                <th>Release Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="set in sets">
+                <tr>
+                  <td x-text="set.jpName"></td>
+                  <td x-text="set.abbr"></td>
+                  <td x-text="set.enName"></td>
+                  <td x-text="set.releaseDate"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </template>
 
     <template x-route="/connect/redirect">
       <div x-data="auth">
@@ -82,51 +207,68 @@
 
     <template x-route="/offer/:id">
       <div x-data="offer">
-        <template x-if="offers.length > 0">
+        <template x-if="!isOffer()">
           <div>
             <header>
-                <h1 x-text="offers[0].title"></h1>
-                <p><i x-text="formatMoney(offers[0].priceCents)"></i></p>
-                <p>Won by <b x-bind:style="{ color: offers[0].winnerColor }" x-text="offers[0].winnerName"></b></p>
-                <!-- * [ ] Authenticated user who is not the winner sees no button -->
-                <!-- * [x] Only unauthenticated user sees the log in button -->
-                <a
-                  x-bind:href="`${Alpine.store('env').backend}/api/connect/twitch`" 
-                  x-show="$store.auth.jwt===''" 
-                  class="button"
-                >
-                  Log In To Buy
-                </a>
-                <!-- * [ ] Only the winner sees the buy button -->
+              <p>Offer ID <span x-text="id"></span> not found</p>
+            </header>
+          </div>
+        </template>
+        <template x-if="isOffer()">
+          <div>
+            <header>
+              <h1 x-text="offers[0].title"></h1>
+              <p><i x-text="formatMoney(offers[0].priceCents)"></i></p>
+              <p>Won by <b x-bind:style="{ color: offers[0].winnerColor }" x-text="offers[0].winnerName"></b></p>
+              <!-- * [ ] Authenticated user who is not the winner sees no button -->
+              <!-- * [x] Only unauthenticated user sees the log in button -->
+              <a
+                x-bind:href="`${Alpine.store('env').backend}/api/connect/twitch`" 
+                x-show="$store.auth.jwt===''" 
+                class="button"
+              >
+                Log In To Buy
+              </a>
+              <!-- * [ ] Only the winner sees the buy button -->
 
 
-                <figure>
-                  <img x-bind:src="offers[0].image" />
-                </figure>
+              <figure>
+                <img x-bind:src="offers[0].image" />
+              </figure>
 
 
-                <template 
-                  x-if="isWinner" 
-                >
-                  <button x-on:click="checkout">Checkout</button>
-                </template>
+              <template 
+                x-if="isWinner" 
+              >
+                <div>
+                  <p>Paid:<span x-text="isPaid"></span></p>
+                  <section x-show="isMultiple">
+                    <header>
+                      <h2>Additional offers won</h2>
+                    </header>
+                    <template x-for="offer in offers.slice(1)">
+                      <aside>
+                        <h3><a x-text="offer.title" x-bind:href="getOfferUrl(offer.id)"></a></h3>
+                        <p x-text="formatMoney(offer.priceCents)"></p>
+                      </aside>
+                    </template>
+                  </section>
+                  <section>
+                    <h2>Shipping</h2>
+                    
+                    <p>USPS First Class Mail $3.42</p>
 
+                  </section>
+                  <section>
+                    <h2>Order Total</h2>
+                    <p style="font-size: 18pt;"><mark x-text="totalPrice"></mark></p>
+                  </section>
+                  <div id="paypal-buttons-container"></div>
+                </div>
+              </template>
             </header>
 
 
-            <template v-if="offers[1]!==undefined">
-              <section>
-                <header>
-                  <h2>Additional offers won</h2>
-                </header>
-                <template x-for="offer in offers.slice(1)">
-                  <aside>
-                    <h3><a x-text="offer.title" x-bind:href="getOfferUrl(offer.id)"></a></h3>
-                    <p x-text="formatMoney(offer.priceCents)"></p>
-                  </aside>
-                </template>
-              </section>
-            </template>
           </div>
         </template>
       </div>
