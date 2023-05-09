@@ -161,11 +161,63 @@
       <main><h1>See <a x-link href="/pm/setlist">/pm/setlist</a></h1></main>
     </template>
 
+    <template x-route="/pm">
+      <main>
+        <h1>Precious Memories</h1>
+
+        <img width="200px" src="./img/PM_Back.jpg">
+        <p>Precious Memories is a Japanese card game which incorporates various Anime and Japanese Pop Culture. This card game does not have an English Edition as of 2023. Naturally, these cards must be imported to the USA which makes them highly sought after and collectible.</p>
+
+        <p>Also known as P-Memories, or #prememo, the card game is played between two players who each craft their idea of a perfect deck.</p>
+
+        <p>Popular prememo sets include VOCALOID, K-ON, Anohana, and OreImo. There are over 100 sets to choose from, with new ones being released every few months!</p>
+
+        <h2>Prememo Resources</h2>
+        <ul>
+          <li><a x-link href="/pm/setlist">Setlist</a></li>
+          <li><a x-link href="/pm/pp/vol3">Promotion Pack Vol.3</a></li>
+          <li><a x-link href="/pm/pp/vol11">Promotion Pack Vol.11</a></li>
+        </ul>
+      </main>
+    </template>
+
+    <template x-route="/pm/pp/vol3">
+      <main>
+        <a href="/pm"><h1>Precious Memories</h1></a>
+        <h2>Promotion Pack Vol.3 potential card list</h2>
+        <img width="100px" src="./img/pp3.png">
+        <img width="100px" src="./img/pp3_back.jpg">
+        <ul>
+          <li>P-006 Sen Tokugawa from Hyakka Ryouran: Samurai Girls set</li>
+          <li>P-006 Kirino from Oreimo My Little Sister Can't Be This Cute set</li>
+          <li>P-004 Tomoe Mami & Madoka Kaname from Puella Magi Madoka Magica set</li>
+          <li>P-005 Kyuubey & Madoka Kaname from Puella Magi Madoka Magica</li>
+          <li>P-003 Popura Taneshima from WORKING!! Wagnaria set</li>
+        </ul>
+      </main>
+    </template>
+
+    <template x-route="/pm/pp/vol11">
+      <main>
+        <a href="/pm"><h1>Precious Memories</h1></a>
+        <h2>Promotion Pack Vol.11 potential card list</h2>
+        <img width="100px" src="./img/pp11.png">
+        <img width="100px" src="./img/pp11_back.png">
+        <ul>
+          <li>P-007 Hatsune Miku from Hatsune Miku set</li>
+          <li>P-005 Mafuyu Shiina from Seitokai no Ichizon Lv2 set</li>
+          <li>P-005 "Acchan" Atsuko Maeda the 13th from AKB0048 set</li>
+          <li>P-007 Taiga Aisaka from Tora Dora! set</li>
+          <li>P-004 Arcueid Brunestud from Carnival Phantasm set</li>
+        </ul>
+      </main>
+    </template>
+
     <template x-route="/pm/setlist">
       <div x-data="setlist">
         <section>
           <header>
-            <h1>Precious Memories TCG Setlist</h1>
+            <h1><a href="/pm">Precious Memories</a> TCG Setlist</h1>
             <p><i>Alphebetized by set abbreviation.</i></p>
           </header>
           <table>
